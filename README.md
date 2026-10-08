@@ -1,15 +1,23 @@
-# Ali Singil Website — V6
+# Ali Singil Website
 
 Minimalistische Landingpage für `alisingil.de`.
 
-## Änderungen in V6
-- synchronisierte, sehr leichte Bewegung der gesamten Bildszene (Mitte + Seiten im gleichen Flow)
-- Crossfade zwischen Bildern bleibt erhalten
-- `prefers-reduced-motion` wird berücksichtigt
-- sichtbare Tastatur-Fokuszustände und Skip-Link
-- Social- und Kontaktlinks mit aussagekräftigen Accessibility-Labels
-- Datenschutzseite für Cloudflare Pages, Zoho Mail und externe Social-Links erweitert
-- Impressum mit den noch zwingend zu ergänzenden Adress-Platzhaltern
+## Technik
 
-## Vor dem finalen Launch
-Die Platzhalter für die ladungsfähige Anschrift in `impressum.html` und `datenschutz.html` ersetzen. Ggf. vorhandene gesetzlich erforderliche Identifikationsnummern ergänzen.
+- Statisches HTML, CSS und JavaScript
+- Hosting: Cloudflare Pages
+- Repository: GitHub
+- Kein Analytics- oder Marketing-Tracking im eigenen Quellcode
+- Keine externen Webfonts
+
+## Dateien
+
+- `index.html` – Landingpage
+- `styles.css` – Landingpage Design / Responsive Layout / Glassmorphism
+- `script.js` – Slideshow mit Crossfade und synchroner Bewegung
+- `impressum.html` – Impressum
+- `datenschutz.html` – Datenschutzerklärung
+- `legal.css` – Design für Impressum und Datenschutz
+- `assets/images/` – Originalfotos
+
+Stand: Oktober 2026
