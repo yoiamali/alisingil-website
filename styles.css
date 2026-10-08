@@ -5,6 +5,7 @@
   --glass-line: rgba(255, 255, 255, 0.23);
   --text: rgba(255, 255, 255, 0.98);
   --muted: rgba(255, 255, 255, 0.68);
+  --center-width: min(51vw, 760px);
 }
 
 * { box-sizing: border-box; }
@@ -29,9 +30,15 @@ a { color: inherit; }
   background: #111;
 }
 
-.slideshow, .scene, .side-fill, .center-frame, .shade {
+.slideshow, .scene, .shade {
   position: absolute;
   inset: 0;
+}
+
+.side-panel, .center-frame {
+  position: absolute;
+  top: 0;
+  bottom: 0;
 }
 
 .slideshow { z-index: 0; background: #111; }
@@ -43,7 +50,7 @@ a { color: inherit; }
 }
 .scene.is-visible { opacity: 1; }
 
-.side-fill,
+.side-panel,
 .center-frame {
   background-image: var(--image);
   background-repeat: no-repeat;
@@ -51,43 +58,55 @@ a { color: inherit; }
   will-change: transform, opacity;
 }
 
-.side-fill {
-  inset: -3.5%;
-  background-size: cover;
-  filter: blur(.65px) saturate(.98) brightness(.90);
-  transform: scale(1.02);
+.side-panel {
+  width: calc((100% - var(--center-width)) / 2);
+  overflow: hidden;
+  background-size: auto 100%;
+  filter: saturate(.98) brightness(.88);
+}
+
+.side-panel-left {
+  left: 0;
+  background-position: var(--position, center center);
+}
+
+.side-panel-right {
+  right: 0;
+  background-position: var(--position, center center);
 }
 
 .center-frame {
   left: 50%;
-  right: auto;
-  width: min(56vw, 850px);
+  width: var(--center-width);
   height: 100%;
-  transform: translateX(-50%) scale(1.008);
-  background-size: auto 114%;
-  box-shadow: 0 0 70px rgba(0,0,0,.17);
+  transform: translateX(-50%) scale(1.002);
+  background-size: cover;
+  box-shadow:
+    -10px 0 28px rgba(0,0,0,.10),
+    10px 0 28px rgba(0,0,0,.10);
+  z-index: 1;
 }
 
-.scene.animate-in .side-fill { animation: sideBreath 10s ease-in-out both; }
+.scene.animate-in .side-panel { animation: sideBreath 10s ease-in-out both; }
 .scene.animate-in .center-frame { animation: centerBreath 10s ease-in-out both; }
-.scene.reverse.animate-in .side-fill { animation-name: sideBreathReverse; }
+.scene.reverse.animate-in .side-panel { animation-name: sideBreathReverse; }
 .scene.reverse.animate-in .center-frame { animation-name: centerBreathReverse; }
 
 @keyframes centerBreath {
-  0% { transform: translateX(-50%) scale(1.018); }
-  100% { transform: translateX(-50%) scale(1.006); }
+  0% { transform: translateX(-50%) scale(1.012); }
+  100% { transform: translateX(-50%) scale(1.002); }
 }
 @keyframes centerBreathReverse {
-  0% { transform: translateX(-50%) scale(1.004); }
-  100% { transform: translateX(-50%) scale(1.018); }
+  0% { transform: translateX(-50%) scale(1.001); }
+  100% { transform: translateX(-50%) scale(1.012); }
 }
 @keyframes sideBreath {
-  0% { transform: scale(1.03); }
-  100% { transform: scale(1.015); }
+  0% { transform: scale(1.006); }
+  100% { transform: scale(1); }
 }
 @keyframes sideBreathReverse {
-  0% { transform: scale(1.012); }
-  100% { transform: scale(1.03); }
+  0% { transform: scale(1); }
+  100% { transform: scale(1.006); }
 }
 
 .shade {
@@ -257,7 +276,7 @@ h1 {
 
 @media (max-width: 900px) {
   :root { --page-pad: 16px; }
-  .center-frame { width: min(69vw, 720px); }
+  :root { --center-width: min(63vw, 720px); }
   .profile-shell { bottom: 18px; }
   .glass-card { min-height: 250px; }
 }
@@ -326,4 +345,30 @@ h1 {
     transition-duration: .01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+
+/* V5: on phones show only the active main image. */
+@media (max-width: 640px) {
+  :root { --center-width: 100vw; }
+  .side-panel { display: none; }
+  .center-frame {
+    left: 0;
+    width: 100%;
+    transform: none;
+    background-position: var(--mobile-position, center center);
+    background-size: cover;
+    box-shadow: none;
+  }
+  .scene.animate-in .center-frame { animation: mobileBreath 10s ease-in-out both; }
+  .scene.reverse.animate-in .center-frame { animation-name: mobileBreathReverse; }
+}
+
+@keyframes mobileBreath {
+  from { transform: scale(1.012); }
+  to { transform: scale(1.002); }
+}
+@keyframes mobileBreathReverse {
+  from { transform: scale(1.002); }
+  to { transform: scale(1.012); }
 }
