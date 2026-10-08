@@ -12,17 +12,16 @@ let activeScene = 0;
 let photoIndex = 0;
 
 function preload() {
-  photos.forEach(({src}) => {
+  photos.forEach(({ src }) => {
     const img = new Image();
     img.src = src;
   });
 }
 
-function paint(scene, photo, index) {
+function paint(scene, photo) {
   scene.style.setProperty('--image', `url("${photo.src}")`);
   scene.style.setProperty('--position', photo.position);
   scene.style.setProperty('--mobile-position', photo.mobile);
-  scene.classList.toggle('reverse', index % 2 === 1);
   scene.classList.remove('animate-in');
   void scene.offsetWidth;
   scene.classList.add('animate-in');
@@ -32,12 +31,12 @@ function advance() {
   const nextScene = activeScene === 0 ? 1 : 0;
   photoIndex = (photoIndex + 1) % photos.length;
 
-  paint(scenes[nextScene], photos[photoIndex], photoIndex);
+  paint(scenes[nextScene], photos[photoIndex]);
   scenes[nextScene].classList.add('is-visible');
   scenes[activeScene].classList.remove('is-visible');
   activeScene = nextScene;
 }
 
 preload();
-paint(scenes[0], photos[0], 0);
+paint(scenes[0], photos[0]);
 setInterval(advance, 10000);
